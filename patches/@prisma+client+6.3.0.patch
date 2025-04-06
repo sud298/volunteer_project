@@ -1,0 +1,9 @@
+diff --git a/node_modules/@prisma/client/runtime/library.js b/node_modules/@prisma/client/runtime/library.js
+index 39ce715..b9c2774 100644
+--- a/node_modules/@prisma/client/runtime/library.js
++++ b/node_modules/@prisma/client/runtime/library.js
+@@ -140,4 +140,3 @@ decimal.js/decimal.mjs:
+    *  MIT Licence
+    *)
+ */
+-//# sourceMappingURL=library.js.map

@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  role         String
+  createdAt    DateTime @default(now())
+}
+
+model air_quality {
+  sitename         String?
+  humidity         Decimal?  @db.Decimal(5, 2)
+  temperature      Decimal?  @db.Decimal(5, 2)
+  noise            Int?
+  pm2_5            Decimal?  @db.Decimal(5, 2)
+  pm10             Decimal?  @db.Decimal(5, 2)
+  receivedtime     DateTime? @db.Timestamp(6)
+  reportedtime_utc DateTime? @db.Timestamp(6)
+  id               Int       @id @default(autoincrement())
+}
+
+model water_quality {
+  id                Int       @id
+  timestamp         DateTime? @db.Timestamp(6)
+  cond              Float?
+  depth             Float?
+  nlf               Float?
+  odo_sat           Float?
+  odo_cb            Float?
+  odo               Float?
+  pressure          Float?
+  sal               Float?
+  spcond            Float?
+  tds               Float?
+  turbidity         Float?
+  tss               Float?
+  wiper_position    Float?
+  temp              Float?
+  vertical_position Float?
+  battery           String?
+  cable_pwr         String?
+  payload           Json?
+  device_id         String?
+  ip                String?
+}
