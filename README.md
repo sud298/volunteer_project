@@ -1,38 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project Setup Guide
+## 🐘 PostgreSQL Installation
 
-## Getting Started
+### Windows
+1. Download installer from [postgresql.org/download/windows](https://www.postgresql.org/download/windows/)
+2. Run installer (remember your admin password)
+3. Add PostgreSQL to PATH during installation
 
-First, run the development server:
-
+### macOS
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+brew install postgresql
+brew services start postgresql
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Linux (Ubuntu/Debian)
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo service postgresql start
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Environment Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create `.env` file in project root:
+```env
+# Database
+DATABASE_URL="postgresql://dbuser:dbpassword@localhost:5432/dbname?schema=public"
 
-## Learn More
+# Authentication
+JWT_SECRET="your-strong-secret-here"
 
-To learn more about Next.js, take a look at the following resources:
+# Python
+PYTHON_PATH="/path/to/python"
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗄️ Database Tables Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Initialize Prisma:
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
 
-## Deploy on Vercel
+2. Verify tables:
+```bash
+npx prisma studio
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📊 Python Data Import
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 1. Install dependencies
+```bash
+cd data-scripts
+```
+Run the individual cell of the python script - insert_in_postgres.ipynb 
 
-testing
+## 👤 Create Test User
+
+### Via API:
+```bash
+curl -X POST 'http://localhost:3000/api/auth/signup' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "test@example.com",
+    "password": "SecurePassword123!",
+    "name": "Test User"
+  }'
+```
+
+### Expected Response:
+```json
+{
+  "id": "clxyz...",
+  "email": "test@example.com",
+  "createdAt": "2024-06-20T12:00:00.000Z"
+}
+```
+
+## 🚦 Verification Steps
+
+1. Check database connection:
+```bash
+npx prisma validate
+```
+
+2. Test authentication:
+```bash
+curl -X POST 'http://localhost:3000/api/auth/login' \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"test@example.com","password":"SecurePassword123!"}'
+```
+
+3. Verify data import:
+```bash
+npx prisma studio
+```
+
+## 🛠️ Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection refused | Check PostgreSQL service status |
+| Authentication failed | Verify credentials in `.env` |
+| Python import errors | Check CSV file permissions |
+| Prisma migration conflicts | Run `npx prisma migrate reset` |
+
+## 🔗 Helpful Resources
+
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [Prisma Migration Guide](https://www.prisma.io/docs/guides/migrate)
+- [Next.js Auth Documentation](https://next-auth.js.org/)
