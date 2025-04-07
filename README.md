@@ -37,6 +37,7 @@ PYTHON_PATH="/path/to/python"
 
 1. Initialize Prisma:
 ```bash
+npm install
 npx prisma generate
 npx prisma migrate dev --name init
 ```
@@ -58,6 +59,7 @@ Run the individual cell of the python script - insert_in_postgres.ipynb
 
 First run the application
 ```bash
+npm run build
 npm run dev
 ```
 
