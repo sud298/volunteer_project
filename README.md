@@ -24,7 +24,7 @@ sudo service postgresql start
 Create `.env` file in project root:
 ```env
 # Database
-DATABASE_URL="postgresql://dbuser:dbpassword@localhost:5432/dbname?schema=public"
+DATABASE_URL="postgresql://<your-dbuser>:<your-dbpassword>@localhost:5432/<your-dbname>?schema=public"
 
 # Authentication
 JWT_SECRET="your-strong-secret-here"
@@ -56,14 +56,18 @@ Run the individual cell of the python script - insert_in_postgres.ipynb
 
 ## 👤 Create Test User
 
+First run the application
+```bash
+npm run dev
+```
+
 ### Via API:
 ```bash
 curl -X POST 'http://localhost:3000/api/auth/signup' \
   -H 'Content-Type: application/json' \
   -d '{
     "email": "test@example.com",
-    "password": "SecurePassword123!",
-    "name": "Test User"
+    "password": "SecurePassword123!"
   }'
 ```
 
@@ -89,12 +93,16 @@ curl -X POST 'http://localhost:3000/api/auth/login' \
   -H 'Content-Type: application/json' \
   -d '{"email":"test@example.com","password":"SecurePassword123!"}'
 ```
+Now you can login in the application using these credentials.
 
 3. Verify data import:
 ```bash
 npx prisma studio
 ```
-
+In the application we have the following routes:
+1. [http://localhost:3000/login](http://localhost:3000/login) --> To login in the application
+2. [http://localhost:3000/dashbooard](http://localhost:3000/dashboard) --> Dashboard for the application where we can see graphs and map
+3. [http://localhost:3000/update-credentials](http://localhost:3000/update-credentials) --> Admin dashboard for the application
 ## 🛠️ Troubleshooting
 
 | Issue | Solution |
