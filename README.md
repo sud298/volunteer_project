@@ -27,7 +27,7 @@ Create `.env` file in project root:
 DATABASE_URL="postgresql://<your-dbuser>:<your-dbpassword>@localhost:5432/<your-dbname>?schema=public"
 
 # Authentication
-JWT_SECRET="your-strong-secret-here"
+JWT_SECRET="<your-strong-secret-here>"
 
 # Python
 PYTHON_PATH="/path/to/python"
@@ -103,6 +103,7 @@ In the application we have the following routes:
 1. [http://localhost:3000/login](http://localhost:3000/login) --> To login in the application
 2. [http://localhost:3000/dashbooard](http://localhost:3000/dashboard) --> Dashboard for the application where we can see graphs and map
 3. [http://localhost:3000/update-credentials](http://localhost:3000/update-credentials) --> Admin dashboard for the application
+
 ## 🛠️ Troubleshooting
 
 | Issue | Solution |
